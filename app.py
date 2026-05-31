@@ -1,6 +1,7 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+import requests
 
 
 
@@ -109,6 +110,48 @@ def register():
                 message = "Registration Successful!"
 
     return render_template('register.html', message=message)
+
+
+
+
+# for open redirect vulnerability
+
+@app.route('/redirect', methods=['GET'])
+def redirect_page():
+    return render_template('redirect.html')
+
+# extra lines below
+@app.route('/open',methods=['GET'])
+def open():
+    target_url = request.args.get('url')
+    action = request.args.get('action', 'redirect')
+    # open redirection
+    if action == 'redirect':
+        return redirect(target_url)
+    
+    # SSRF
+    elif action == 'fetch':
+        try:
+            response = requests.get(target_url, timeout=10)
+            if response.status_code == 200:
+                return f"Recieved 200 ok {target_url}"
+            else:
+                return f"Recieved {response.status_code} from {target_url}"
+        except requests.ConnectionError:
+            return f"Connection Refused By {target_url}"
+        except requests.Timeout:
+            return f"Connection time out for {target_url}"
+        except Exception as e:
+            return str(e)
+    return "Specify action and url parameters"
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -1,0 +1,53 @@
+body{
+            color: black;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        section{
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            scroll-snap-align: start;
+        }
+        .header{
+            background-image: url("../static/clouds.jpg");
+            background-size: cover;
+            text-align: center;
+            padding: 20px 0;
+            background-attachment: fixed;
+        }
+        .content-section{
+            position: relative;
+            color: black;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .content-section::before{
+            content: "";
+            position:absolute ;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('../static/goals.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            opacity: 0.2;
+        }
+        .content-block{
+            flex-basis: 30%;
+            padding: 20px;
+            opacity: 1;
+        }
+        .contact{
+            background-image: url('../static/contact.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            text-align: center;
+        }
